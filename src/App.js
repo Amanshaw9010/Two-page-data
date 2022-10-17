@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import First from './component/First';
+import Second from './component/Second';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { useReducer, createContext } from "react"
+import { initialState, reducer } from './reducer/UserReducer';
+
+
+export const UserContext = createContext();
+
+const Routing = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<First />} />
+        <Route path='/second' element={<Second />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
 
 function App() {
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <UserContext.Provider value={{ state, dispatch }} >
+        <Routing />
+      </UserContext.Provider>
+    </>
   );
 }
 
